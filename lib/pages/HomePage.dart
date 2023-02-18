@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Komal Sweets"),
+        title: Text("Komal S Sweets"),
       ),
       body:Container(
         // height: 300,
