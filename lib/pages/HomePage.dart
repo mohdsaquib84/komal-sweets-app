@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:komal_sweets/pages/MyListView.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,11 +17,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var apiData;
+  var profileName;
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
     fetchapi();
+    dataFromLocalStorage();
   }
   fetchapi() async {
     var serverData = await Dio().get("https://fair-jade-tick-tux.cyclic.app/api/restaurant");
@@ -29,13 +32,25 @@ class _HomePageState extends State<HomePage> {
     });
 
   }
+  Future<void> dataFromLocalStorage() async {
+    var instPref = await SharedPreferences.getInstance();
+   profileName = instPref.getString('userName');
+  }
   
   @override
   Widget build(BuildContext context) {
     // print(apiData);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Komal S Sweets"),
+        title: Text("HomePage"),
+        actions: [
+          Container(
+            height: double.infinity,
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, '/admindashboard'),
+                child: Center(child: Text('Welcome, ${profileName==null?"Guest":profileName}',style: TextStyle(fontSize: 20),))),
+          )
+        ],
       ),
       body:Container(
         // height: 300,

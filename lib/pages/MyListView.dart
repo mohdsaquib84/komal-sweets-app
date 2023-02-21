@@ -16,7 +16,7 @@ class _MyListViewState extends State<MyListView> {
     getData();
   }
   Future<void> getData() async {
-    var api = await Dio().get('https://fair-jade-tick-tux.cyclic.app/api/restaurant');
+    var api = await Dio().get('https://fair-jade-tick-tux.cyclic.app/api/menu');
     setState(() {
       apiData = api.data;
     });
@@ -26,7 +26,9 @@ class _MyListViewState extends State<MyListView> {
   Widget build(BuildContext context) {
     // print(apiData);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('MenuPage'),
+      ),
       body: Center(
 
         child: apiData==null ? Center(
@@ -37,49 +39,39 @@ class _MyListViewState extends State<MyListView> {
           return Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
-              // height: 400,
+              height: 250,
               width: double.infinity,
               color: Colors.pink.shade100,
-              child: Column(
+              child: Row(
                 children: [
-                    Container(
-                      height: 300,
-                      width: double.infinity,
-                      color: Colors.green,
-                      child: Image.network('https://fair-jade-tick-tux.cyclic.app${apiData[index]['image']}',fit: BoxFit.fill,),
-                    ),
                   Container(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('PAN: ${apiData[index]['pan']}',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20),),
-                              Text('Veg')
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Rating : 3.4'),
-                              Text('In Stock')
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('20% Off Today'),
-                            ],
-                          )
-                        ],
+                    height: double.infinity,
+                    width: 200,
+                    color: Colors.red,
+                    child:Image.network('https://fair-jade-tick-tux.cyclic.app${apiData[index]['image']}',fit: BoxFit.fill),
+                  ),
+                  Expanded(
+                    child: Container(
+                      height:double.infinity ,
+                      // width: 200,
+                      color: Colors.green,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('${apiData[index]['name']}',style: TextStyle(fontSize: 25)),
+                            Text('Rs.${apiData[index]['srp']}',style: TextStyle(fontSize: 15)),
+                            Text('${apiData[index]['foodType']}'),
+                            ElevatedButton(onPressed: ()=>{}, child:Text('Add To cart'))
+
+                          ],
+                        ),
                       ),
                     ),
                   )
                 ],
-              ),
+              )
             ),
           );
         },
